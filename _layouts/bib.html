@@ -8,6 +8,12 @@
     <abbr class="badge"><a href="{{site.data.venues[entry.abbr].url}}" target="_blank">{{entry.abbr}}</a></abbr>
     {% else %}
     <abbr class="badge">{{entry.abbr}}</abbr>
+<div class="img">
+    <img src="/assets/img/bio-photo.png">
+</div>
+ <iframe width="420" height="315"
+src="https://www.youtube.com/embed/tgbNymZ7vqY">
+</iframe> 
     {% endif %}
   {% endif %}
   </div>
@@ -129,6 +135,11 @@
     {% if entry.website %}
       <a href="{{ entry.website }}" class="btn btn-sm z-depth-0" role="button" target="_blank">Website</a>
     {% endif %}
+
+    {% if entry.video %}
+      <a href="{{ entry.video }}" class="btn btn-sm z-depth-0" role="button" target="_blank">Video</a>
+    {% endif %}
+
     </div>
 
     <!-- Hidden abstract block -->
@@ -144,5 +155,8 @@
       {% highlight bibtex %}{{ entry.bibtex }}{% endhighlight %}
     </div>
     {% endif %}
+
+
+
   </div>
 </div>
