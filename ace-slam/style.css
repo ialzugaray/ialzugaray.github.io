@@ -1,0 +1,76 @@
+body {
+    background-color: black;
+    color: lightgray;
+}
+
+header {
+  position: relative;
+  height: 350px;
+  width: 100%;
+  overflow: hidden;
+}
+
+header video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+h1 {
+  color: white;
+}
+
+a {
+  color: #58C4DD;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #7efae3;
+
+}
+
+hr {
+  color: #ffffff;
+  opacity:100;
+}
+
+.carousel-indicators {
+  top:50px
+}
+
+.carousel-caption {
+  top:0px
+}
+
+b {
+  color: white;
+}
+
+li {
+  color: lightgray;
+}
+
+.hero {
+  padding: 3rem 1.5rem;
+  background-color: #000000;
+}
+
+.teaser {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  max-width: 10%;
+}
+

@@ -32,7 +32,7 @@
 
           <h1 class="mt-3">Ignacio Alzugaray</h1>
           <p class="mt-1">
-          I’m a postdoctoral research fellow in <a href="https://www.doc.ic.ac.uk/~ajd/"> Andrew Davison's Dyson Robotics Lab</a> at <a href="https://www.imperial.ac.uk/computing/">Imperial College London</a>. 
+            I’m a postdoctoral research fellow in <a href="https://www.doc.ic.ac.uk/~ajd/"> Andrew Davison's Dyson Robotics Lab</a> at <a href="https://www.imperial.ac.uk/computing/">Imperial College London</a>. 
             My research centers on Spatial AI, focusing on the intersection of machine learning and geometric computer vision.
           </p>
           <p>
@@ -222,6 +222,17 @@
       }
     }
 
+    createPaperCard(["highlights-cards-container","all-cards-container"], {
+      title: "ACE-SLAM: Scene Coordinate Regression for Real-Time SLAM",
+      conference: "arXiv 2025",
+      authors: ["Ignacio Alzugaray", "Marwan Taher", "Andrew J. Davison"],
+      abstract: "TL;DR: we introduce the first neural implicit SLAM system using a Scene Coordinate Regression network as a scene representation, achieving strict real-time performance on live streams.",
+  projectLink: "ace-slam/index.html",
+      // paperLink: "https://arxiv.org/pdf/2406.09726v2",
+      teaserSrc: "ace-slam/assets/teaser_720p_24fps.gif",
+      // extraLinks: [["https://youtu.be/gmqyDkGEV1s", "fa-brands fa-youtube", "video (full)"],
+    // ["https://youtu.be/19b2TwUirGs", "fa-brands fa-youtube", "CVPRW video (short, voice-over)"]]
+    });
 
     createPaperCard(["all-cards-container"], {
       title: "LiDAR Loop Closure Detection using Semantic Graphs with Graph Attention Networks",

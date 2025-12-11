@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="ACE-SLAM: Scene Coordinate Regression for Real-Time SLAM">
+
+        <title>ACE-SLAM: Scene Coordinate Regression for Real-Time SLAM</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+            rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+            crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+              crossorigin="anonymous">
+
+        <link href="style.css" rel="stylesheet">
+        <!-- <link rel="icon" href="assets/fav_icon.png"> -->
+    </head>
+    <body>
+
+
+  <!-- Title and authors -->
+  <div class="text-center mb-4">
+    <h1 class="mt-3">ACE-SLAM</h1>
+    <h3>Scene Coordinate Regression for Real-Time SLAM</h3>
+    <h4>arXiv 2025</h4>
+
+    <h4 class="mt-3">
+      <a href="https://ialzugaray.github.io/">Ignacio Alzugaray</a>&emsp;
+      <a href="https://marwan99.github.io/">Marwan Taher</a>&emsp;
+      <a href="https://www.doc.ic.ac.uk/~ajd/">Andrew J. Davison</a>
+    </h4>
+    <p>
+      <a href="https://www.imperial.ac.uk/dyson-robotics-lab/">Dyson Robotics Lab</a> | 
+      <a href="https://www.imperial.ac.uk/computing/">Imperial College London</a>
+    </p>
+  </div>
+
+    <!-- Buttons -->
+    <div class="row justify-content-center mb-4 g-2">
+    <div class="col-auto">
+        
+        
+        <a href="https://drive.google.com/file/d/15cKV1Jr9Le3mvnvME8d6MSNYsm9l2VZN/view?usp=sharing" class="btn btn-secondary btn-sm" target="_blank">
+            <!-- <a href="assets/ACE_SLAM.pdf" class="btn btn-secondary btn-sm" target="_blank"></a> -->
+        <!-- <a href="assets/ACE_SLAM.pdf" class="btn btn-secondary btn-sm" target="_blank"></a> -->
+        <i class="fa-solid fa-file-pdf"></i>&nbsp;&nbsp;Paper
+        </a>
+    </div>
+    <div class="col-auto">
+        <a href="https://www.youtube.com/watch?v=FPLOxcnjQr0" class="btn btn-secondary btn-sm" target="_blank">
+        <i class="fa-brands fa-youtube"></i>&nbsp;&nbsp;Video
+        </a>
+    </div>
+    <div class="col-auto">
+        <a href="https://github.com/ialzugaray/ace-slam" class="btn btn-secondary btn-sm" target="_blank">
+        <i class="fa-brands fa-github"></i>&nbsp;&nbsp;Code (Coming soon)
+        </a>
+    </div>
+    <div class="col-auto">
+        <a href="#citation" class="btn btn-secondary btn-sm">
+        <i class="fa-solid fa-file"></i>&nbsp;&nbsp;BibTeX
+        </a>
+    </div>
+    </div>
+
+  <!-- Teaser Video -->
+<div class="container py-4">
+
+  <!-- Teaser Video -->
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-10 text-center">
+
+      <section class="teaser">
+
+        <!-- Local teaser video -->
+        <video id="teaser" class="w-100 mb-4" autoplay muted loop playsinline>
+          <source src="assets/teaser.mp4" type="video/mp4">
+        </video>
+
+        <h4 class="mt-2 subtitle">
+          <strong>ACE-SLAM</strong> is the first neural implicit SLAM system using a Scene Coordinate Regression network as a scene representation, achieving strict real-time performance on live streams
+        </h4>
+
+        <!-- Embedded YouTube video -->
+        <div class="mt-4">
+          <div class="ratio ratio-16x9">
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/FPLOxcnjQr0?si=Ab7hvxglO-99tE0D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="row justify-content-center mb-4">
+  <div class="col-10 col-md-10 col-lg-8" style="text-align: justify;">
+    <p>
+      We present a novel neural RGB-D SLAM system that learns an implicit map of the scene in real time. For the first time, we explore Scene Coordinate Regression (SCR) as the core implicit map representation in a neural SLAM pipeline, training a lightweight network to map 2D image features directly to 3D global coordinates. SCR networks provide efficient, low-memory 3D map representations, enable extremely fast relocalization, and inherently preserve privacy, making them particularly well-suited for neural implicit SLAM.
+      <br><br>
+      Our system is the first to achieve strict real-time performance in neural implicit RGB-D SLAM using an SCR-based representation. We introduce a novel SCR architecture tailored for this purpose and describe the key design choices needed to integrate SCR into a live SLAM pipeline. The resulting framework is simple yet flexible, supporting both sparse and dense features, and operates reliably in dynamic environments without special adaptation.
+    </p>
+
+
+
+    <h3 class="mt-5">ACE-SLAM Pipeline: Continual Map Learning</h3>
+    <hr>
+Features are extracted from each RGB-D frame using a pretrained and frozen feature extractor. These features are then passed to a Scene Coordinate Regression (SCR) network, which implicitly represents the 3D scene and maps them directly to global 3D coordinates. The predicted global coordinates are aligned with the local geometry derived from the depth map via RANSAC, enabling robust camera relocalization.
+<br>
+<br>The estimated camera pose together with the reconstructed local geometry provides self-supervision signals that continually refine the SCR network, allowing it to learn the scene representation over time. Despite modeling full 3D environments, the resulting map remains extremely compact, occupying less than 1 MB for all shown scenes.
+    <br>
+    
+
+    <video id="pipeline" class="w-100 mb-4" autoplay muted loop playsinline controls>
+          <source src="assets/PipelineScene_cropped.mp4" type="video/mp4">
+        </video>
+
+
+
+    <h3 class="mt-5">TriMLP: An Adapative Scene Coordinate Regression Architecture</h3>
+    <hr>
+    Instead of regressing the 3D coordinate directly as in traditional SCR, our network uses an MLP to predict coordinate weights on three orthogonal 3D planes, and the final 3D point is obtained as a weighted combination of these plane-based activations.
+    <br>
+    <video id="pipeline" class="w-100 mb-4" autoplay muted loop playsinline controls>
+          <source src="assets/TriMLPScene_operating.mp4" type="video/mp4">
+        </video>
+
+    This design provides a powerful inductive bias that greatly increases representational flexibility, allowing many internal configurations to yield the same regressed 3D coordinate. As a result, the map adapts far more quickly and reliably as new parts of the scene are explored.
+    <br>
+    <video id="pipeline" class="w-100 mb-4" autoplay muted loop playsinline controls>
+          <source src="assets/TriMLPScene_invariance.mp4" type="video/mp4">
+        </video>
+
+    
+    
+
+    <h3 class="mt-5">Experimental Evaluation</h3>
+    <hr>    
+The proposed system operates robustly across diverse scenes, handling variations in scale and geometric complexity with ease. It naturally detects loop closures and corrects drift implicitly, without requiring any dedicated loop‐closure module.
+<br><br>
+The method is highly efficient: all datasets are processed in strict real time, matching the frame rate at which they are captured. Despite modeling full 3D environments, the learned map remains extremely compact, with every scene stored in under 1 MB.
+
+
+
+                    <div id="carouselExperiments" class="carousel slide" data-bs-ride="false">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExperiments" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExperiments" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExperiments" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExperiments" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                        </div>
+                        <div style="height: 50px;"></div>
+
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <video class="w-100" autoplay loop muted controls>
+                                    <source src="assets/experiment_replica_office0.mp4" type="video/mp4" />
+                                </video>
+                                <!-- <div class="carousel-caption">
+                                    <h5>TUM fr3_office</h5>
+                                </div> -->
+                            </div>
+                            <div class="carousel-item">
+                                <video class="w-100" autoplay loop muted controls>
+                                    <source src="assets/experiment_fr3_office.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                            <div class="carousel-item">
+                                <video class="w-100" autoplay loop muted controls>
+                                    <source src="assets/experiment_scannet_0059.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                            <div class="carousel-item">
+                                <video class="w-100" autoplay loop muted controls>
+                                    <source src="assets/experiment_self.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                        </div>
+  <!-- Previous button -->
+  <button class="carousel-control-prev d-flex align-items-center" type="button" data-bs-target="#carouselExperiments" data-bs-slide="prev"
+          style="width: 120px; height: 80px; justify-content: flex-start; padding-left: 10px;">
+    <span class="carousel-control-prev-icon" aria-hidden="true"
+          style="width: 40px; height: 40px; background-size: 100% 100%;"></span>
+    <span style="margin-left: 10px; font-weight: bold; color: white;">Previous</span>
+  </button>
+
+  <!-- Next button -->
+  <button class="carousel-control-next d-flex align-items-center" type="button" data-bs-target="#carouselExperiments" data-bs-slide="next"
+          style="width: 120px; height: 80px; justify-content: flex-end; padding-right: 10px;">
+    <span style="margin-right: 10px; font-weight: bold; color: white;">Next</span>
+    <span class="carousel-control-next-icon" aria-hidden="true"
+          style="width: 40px; height: 40px; background-size: 100% 100%;"></span>
+  </button>
+                    </div>
+
+                        <h4 class="mt-5">Always-on Relocalization and Robustness to Dynamic Scenes</h3>
+    <hr>    
+    The proposed system continuously relocalizes and is inherently robust to changes in the scene without requiring any special components or explicit handling. It utilizes all available features in the field of view and automatically discards those that do not conform to the camera motion. This enables the system to operate seamlessly even when parts of the scene are changing, without affecting its performance.
+                    <div id="carouselExperimentsDyn" class="carousel slide" data-bs-ride="false">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExperimentsDyn" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExperimentsDyn" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        </div>
+                        <div style="height: 50px;"></div>
+
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <video class="w-100" autoplay loop muted controls>
+                                    <source src="assets/experiment_self_dyn.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                            <div class="carousel-item">
+                                <video class="w-100" autoplay loop muted controls>
+                                    <source src="assets/experiment_tumrgbd_fr3_walk.mp4" type="video/mp4" />
+                                </video>
+                            </div>
+                        </div>
+
+                        <!-- Previous button -->
+                    <button class="carousel-control-prev d-flex align-items-center" type="button" data-bs-target="#carouselExperimentsDyn" data-bs-slide="prev"
+                            style="width: 120px; height: 80px; justify-content: flex-start; padding-left: 10px;">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"
+                            style="width: 40px; height: 40px; background-size: 100% 100%;"></span>
+                        <span style="margin-left: 10px; font-weight: bold; color: white;">Previous</span>
+                    </button>
+
+                    <!-- Next button -->
+                    <button class="carousel-control-next d-flex align-items-center" type="button" data-bs-target="#carouselExperimentsDyn" data-bs-slide="next"
+                            style="width: 120px; height: 80px; justify-content: flex-end; padding-right: 10px;">
+                        <span style="margin-right: 10px; font-weight: bold; color: white;">Next</span>
+                        <span class="carousel-control-next-icon" aria-hidden="true"
+                            style="width: 40px; height: 40px; background-size: 100% 100%;"></span>
+                    </button>
+                                        <!-- <video class="w-100" autoplay loop muted controls>
+                                    <source src="assets/experiment_tumrgbd_fr3_walk.mp4" type="video/mp4" />
+                                </video>
+
+                                <video class="w-100" autoplay loop muted controls>
+                                    <source src="assets/experiment_self_dyn.mp4" type="video/mp4" />
+                                </video> -->
+
+    
+  </div>
+
+
+                    <h3 class="mt-5" id="citation">Citation</h3>
+                    <hr class="hr"/>
+                    <pre class="w-100 user-select-all font-monospace border border-secondary bg-dark mb-5 p-2">
+@inproceedings{alzugaray2025aceslam,
+    title={ACE-SLAM: Scene Coordinate Regression for Real-Time SLAM},
+    author={Alzugaray, Ignacio and Taher, Marwan and Davison, Andrew J.},
+    booktitle={arXiv},
+    year={2025},
+}</pre>
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is inspired by <a href="https://pengsongyou.github.io/nice-slam">NICE-SLAM</a> and <a href="https://nianticlabs.github.io/ace/">Accelerated Coordinate Encoding</a>.
+          </p>
+        </div>
+      </div>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+                    <!-- </p>
+
+                    <h3 class="mt-5">Unifying solution to Sparse and Dense respresentations</h3>
+                    <hr class="hr"/>
+                    <h3 class="mt-5">Always on Relocalization and Implicit Loop Closure</h3>
+                    <hr class="hr"/>
+                    <h3 class="mt-5">Robustness to Dynamic Changes in the Scene</h3>
+                    <hr class="hr"/>
+
+                    <p> -->
+</div>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const videos = document.querySelectorAll('video[autoplay]');
+
+  // IntersectionObserver for scrolling
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      const isCarouselActive = video.closest('.carousel-item')?.classList.contains('active') ?? true;
+
+      if (entry.isIntersecting && isCarouselActive) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  videos.forEach(video => observer.observe(video));
+
+  // Bootstrap carousel event: play videos immediately when a slide becomes active
+  const carousels = document.querySelectorAll('.carousel');
+  carousels.forEach(carousel => {
+    carousel.addEventListener('slid.bs.carousel', () => {
+      const activeSlide = carousel.querySelector('.carousel-item.active');
+      const activeVideo = activeSlide?.querySelector('video[autoplay]');
+      if (activeVideo) activeVideo.play().catch(() => {});
+    });
+  });
+});
+</script>
+
+
+    </body>
+</html>
